@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from bf3 import read_wordlist, BloomFilter, read_wordsearch
+from bloomfilter import read_wordlist, BloomFilter, read_wordsearch
 import hashlib
 import logging
 from bitarray import bitarray
@@ -52,7 +52,7 @@ def test_read_wordlist():
     print('n')
     bf = BloomFilter(n)
     read_wordlist(bf, n, file)
-    test_bit_array = bitarray('0000000000000000000001000100000000000001010000000001000000000000000001010000000001000000000000101000')
+    test_bit_array = bitarray('000000000000000000000100010000000000000101000000y0001000000000000000001010000000001000000000000101000')
     print('\n *******************\n bf and set \n', bf.bit_array)
     print('\n Test_bit_array \n', test_bit_array)
     print('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
@@ -100,12 +100,14 @@ def test_no_wordfile():
     with pytest.raises(Exception):
         read_wordsearch(bf, n, "ThisFileShouldNotBefound.txt")
 
+
 def test_write_test_file():
     fileh = open('./data/playdata/testdata.txt', 'w', encoding="iso-8859-1")
     fileh.write('zzz\n')
     fileh.write('étagère\n')
     fileh.write("étui's\n")
     fileh.close()
+
 
 '''
 what if not latin-1 file? will it work?
