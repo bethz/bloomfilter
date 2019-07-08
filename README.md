@@ -1,19 +1,19 @@
 # bloomfilter.py
 
-- left \n at end of line - add newline=None
-- close files
-- try to read non existant file
-
 # Description
   This Github implements a Bloom filter  based spell checker in python.  It includes:
   - interesting unit tests using pytest 
-  - argparse for command line inputs
+  - input list in iso-8859-1, Latin-1
   - logging in the Bloom Filter and in pytest
+  - an implementation of a Bloom Filter
 
-  Bloom filters are interesting because they are a very space efficient way to find if something is a member of a set when the set can be quite large.   False positives are possible but false negatives are not. Bloom Filters are explained [here](https://en.wikipedia.org/wiki/Bloom_filter).
-  - add some strings to the Bloom filter
-  - query the Bloom filter for strings known to be in the bloom filter
-  - query the Bloom filter for some strings known NOT to be in the Bloom filter which could result in potential false positive.
+  Bloom filters are interesting because they are a very space efficient way to find if something is a member of a set when the set can be quite large.   False positives are possible but false negatives are not. Bloom Filters are [explained in detail.](https://en.wikipedia.org/wiki/Bloom_filter).
+  
+ 
+ This code:
+  - adds some strings to the Bloom filter
+  - queries the Bloom filter for strings known to be in the bloom filter
+  - queries the Bloom filter for some strings known NOT to be in the Bloom filter which could result in potential false positive results
 
 This work started from a useful idea about improving coding capability from [CodeKata](http://codekata.com/kata/kata05-bloom-filters/).
 
@@ -24,35 +24,32 @@ Summarized from [CodeKata](http://codekata.com/kata/kata05-bloom-filters/):
 To check if a word is in the list, use the same hash that was used to set up the bitmap.  If the bits in the array corresponding to the hash are set,  the the word may be in the list. If not set, then that word is not in the list.
 
 Sometimes a Bloom filter will report a false positive. This will not happen frequently as long as the bitmap is not heavily loaded.
+
 ```
 
 The Bloom filter is full when at capacity:
 ```
- M * ((ln 2 ^ 2) / abs(ln p))
+ m * ((ln 2 ^ 2) / abs(ln p))
 
  where:
- M - number of bits
+ m - number of bits in the bloom filter bit array
  p - the false positive probability
 
- For this loom
 ```
 The [word list](here) used comes from SCOWL, which is Copyright 2000-2011 by Kevin Atkinson. 
 
 
-Python provides a [Bloomfilter](https://github.com/wxisme/py-bloomfilter) but the goal of this project was to learn about implementing a Bloom filter.
+Python provides a [Bloomfilter](https://github.com/wxisme/py-bloomfilter) but the goal of this project was to learn about implementing a Bloom filter so one was implemented.
 
 
 # Usage
-  bf4.py --file dictionaryfile --
-
+  python bloomfilter.py 
+  
+Inputs are defined in bloomfilter.py in main.
 It is not pip installable.
 
 # Highlights
 
-- supports Latin-1, aka ISO-8859-1 - represents first 256 Unicode characters.
-
-- demonstrates logging with pytest
-- interesting unit tests are included
 
 # Number of bits and false positive rate
 ```
