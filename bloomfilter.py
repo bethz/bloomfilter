@@ -24,7 +24,7 @@ class BloomFilter(Logging_setup):
         """
         Init the Bloomfilter
         Arguments:
-        size
+        size - size of the bitarray
 
         Return:
         Ref to Bloomfilter
@@ -46,22 +46,22 @@ class BloomFilter(Logging_setup):
         """
         Insert into BloomFilter according to hashes
         Arguments:
-        line
-        n
+        line - entry for bloomfilter
+        n    - size of the bloomfilter, num bits
 
         Return:
-        index
-        index2
+        index1 - first hash
+        index2 - second hash
         """
 
         # mod to size of bitarray
-        index = mmh3.hash((line.encode('utf-8')), 1) % n
-        self.bit_array[index] = 1
+        index1 = mmh3.hash((line.encode('utf-8')), 1) % n
+        self.bit_array[index1] = 1
         index2 = mmh3.hash((line.encode('utf-8')), 3) % n
         self.bit_array[index2] = 1
         logging.debug("insert line {} index {} index {}".format(
-                      line.encode('utf-8'), index, index2))
-        return index, index2
+                      line.encode('utf-8'), index1, index2))
+        return index1, index2
 
     def check():
         pass
@@ -70,11 +70,11 @@ class BloomFilter(Logging_setup):
         """
         Find if the word is in the dictionary with indices
         Arguments:
-        line
-        n
+        line - check for this line in the bloomfilter
+        n - size of bloomfilter
         Return:
-        if-fnd
-        indices
+        {True:False} - True if found, False if not
+        indices - the indices if found, else 0,0
         """
         logging.debug("in search")
         h1 = mmh3.hash((line.encode('utf-8')), 1) % n
@@ -82,7 +82,7 @@ class BloomFilter(Logging_setup):
         # j = h1 % self.n
         j = int(h1) % n
         k = int(h2) % n
-        logging.info("find line {} index {} index {}".format(line.encode(
+        logging.debug("find line {} index {} index {}".format(line.encode(
                      'utf-8'),
                      h1, h2))
 
@@ -96,27 +96,27 @@ def openfile(file):
     """
     Open a file with it's encoding
     Arguments:
-    file
+    file - filename to open
 
     Return:
-    fileh
-    fencode
+    fileh   - file reference
+    fencode - file encoding
     """
 
     fencode = subprocess.getoutput('file -b --mime-encoding %s' % file)
     fileh = open(file, encoding=fencode)
-    print("fencode ", fencode)
+    logging.debug("fencode ".format(fencode))
     return fileh, fencode
 
 
 def setup_dict(bf, n, file, fileh, fencode):
     """
     Arguments:
-    bf
-    n
-    file
-    fileh
-    fencode
+    bf      - reference to bloomfilter
+    n       - size of bloomfilter 
+    file    - filename
+    fileh   - reference to file
+    fencode - file encoding
 
     Return:
     None
@@ -145,8 +145,8 @@ def setup_dict(bf, n, file, fileh, fencode):
         i += 1
         line = fileh.readline()
 
-    logging.info(" Dictionary file {0} has {1} lines, file_encoding is {2}"
-                 .format(file, i, fencode))
+    logging.debug(" Dictionary file {0} has {1} lines, file_encoding is {2}"
+                  .format(file, i, fencode))
 
 
 def read_search_list(bf, n, file, fileh, fencode):
@@ -154,11 +154,11 @@ def read_search_list(bf, n, file, fileh, fencode):
     Read the list of strings to search for
 
     Arguments:
-    bf
-    n
-    file
-    fileh
-    fencode
+    bf - bloomfilter
+    n - 
+    file - file to read words from
+    fileh - file reference
+    fencode - file encoding
 
     Return:
     none
@@ -168,20 +168,20 @@ def read_search_list(bf, n, file, fileh, fencode):
 
     i = 0
     while line:
-        logging.info("looking for words")
+        logging.debug("looking for words")
         fnd, j1, j2 = bf.find_word(line, n)
         if fnd:
-            logging.info(" line is FND! {}. {}".format(i+1,
-                         line.encode("iso-8859-1")))
+            logging.info(" line is FOUND! {}. {}".format(i+1,
+                          line.encode("iso-8859-1")))
         else:
-            logging.info("\n line is NOT!{} ".format(line))
+            logging.debug("\n line is NOT found!{} ".format(line))
 
         i += 1
         line = fileh.readline()
         if fnd:
             logging.debug("Found {0} set {1} {2}".format(line, j1, j2))
             continue
-    logging.info("Words to find file {0} contains {1} lines, file encoding is \
+    logging.info("Search file {0} contains {1} lines, file encoding is \
                  {2}".format(file, i, fencode))
 
 
@@ -206,7 +206,7 @@ def calc_bf_sizes(n, p):
     k = (m/n) * ln2
     logging.info('BloomFilter stats \n Number of bits in bitarray: {0}, \
                  \n Number of hash functions {1} \n False Positive rate: \
-                 {2}'.format(m, k, p))
+                 {2}%\n'.format(m, k, p*100))
     return m, k
 
 
@@ -220,11 +220,12 @@ def create_arg_parser():
     # script to run pytest
     parser.add_argument("--prob",
                         action="store",
-                        default=.1,
-                        help="Desired probability")
+                        default=1,
+                        type=int,
+                        help="Desired probability, 1 is 1%, 10 is 10% etc")
     parser.add_argument("--items",
                         action="store",
-                        default=100,
+                        default=326000,
                         help="Number of items in dictionary to search")
     parser.add_argument("--target",
                         action="store",
@@ -233,6 +234,7 @@ def create_arg_parser():
     args = parser.parse_args()
 
     return args
+
 
 def main():
     """
@@ -264,22 +266,22 @@ def main():
 
     """
     args = create_arg_parser()
-    items_in_filter = 340000
-    prob_false_neg = .01
+    items_in_filter = args.items
+    prob_false_neg = args.prob/100
     dict_file = "data/wordlist.txt"
     search_file = "data/searchwords.txt"
 
     size_bitarray, k = calc_bf_sizes(items_in_filter, prob_false_neg)
-    logging.info('Set up BF')
+    logging.debug('Set up BF')
     bf = BloomFilter(size_bitarray)
 
-    logging.info('read dictionary')
+    logging.debug('read dictionary')
     dfileh, dencode = openfile(dict_file)
     # read and insert into Bloomfilter
     setup_dict(bf, size_bitarray, dict_file, dfileh, dencode)
     dfileh.close()
 
-    logging.info('read search list')
+    logging.debug('read search list')
     sfileh, sencode = openfile(search_file)
     read_search_list(bf, size_bitarray, search_file, sfileh, sencode)
     sfileh.close()
@@ -288,7 +290,7 @@ def main():
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     logging.getLogger('bloom3')
-    logging.info("bloomfilter")
+    logging.debug("bloomfilter")
     logging.debug("debug")
 
     main()
