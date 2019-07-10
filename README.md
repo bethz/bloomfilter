@@ -1,22 +1,17 @@
 # bloomfilter.py
 
 # Description
-  This Github implements a Bloom filter  based spell checker in python. It began from this [CodeKata](http://codekata.com/kata/kata05-bloom-filters/).  It includes:
-  - interesting unit tests using pytest 
-  - input list in iso-8859-1, Latin-1
+  This Github implements a Bloom filter  based spell checker in python. This work started from a useful idea about improving coding capability from [CodeKata](http://codekata.com/kata/kata05-bloom-filters/).
+   
+It includes:
+  - a python implementation of a Bloom Filter 
+  - input list for dictionary creation in iso-8859-1, Latin-1
   - logging in the Bloom Filter and in pytest
-  - an implementation of a Bloom Filter
   - argparse to provide help with input parameters
+  - unit tests using pytest
 
   Bloom filters are interesting because they are a very space efficient way to find if something is a member of a set when the set can be quite large.   False positives are possible but false negatives are not. Bloom Filters are [explained in detail.](https://en.wikipedia.org/wiki/Bloom_filter).
-  
- 
- This code:
-  - adds some strings to the Bloom filter
-  - queries the Bloom filter for strings known to be in the bloom filter
-  - queries the Bloom filter for some strings known NOT to be in the Bloom filter which could result in potential false positive results
 
-This work started from a useful idea about improving coding capability from [CodeKata](http://codekata.com/kata/kata05-bloom-filters/).
 
 Summarized from [CodeKata](http://codekata.com/kata/kata05-bloom-filters/):
 ```
@@ -91,8 +86,10 @@ p = 1%
 
 # Interesting Items
 - Character encoding
-		○ [Joelonsoftware](https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/)
-			§ [Quick summary of that](https://medium.com/@joffrey.bion/charset-encoding-encryption-same-thing-6242c3f9da0c)
+
+		- [Joelonsoftware](https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/)
+
+		-  [Quick summary of that](https://medium.com/@joffrey.bion/charset-encoding-encryption-same-thing-6242c3f9da0c)
 
 - hashing for Bloom filters is different than filters for cryptographic functions
 - hashing for Bloom filters should be very, very fast with uniform spread
@@ -102,7 +99,8 @@ p = 1%
 
 - Python stores text in Unicode code points. A bit of knowledge is necessary to [process these properly](http://python-notes.curiousefficiency.org/en/latest/python3/text_file_processing.html). I used a provided wordlist that was Latin-1.  In particular, the process of converting from a sequence of bytes (i.e. binary data) to a sequence of code points (i.e. text data) is decoding, while the reverse process is encoding. Latin-1 maps byte values directly to the first 256 Unicode points. Note that Windows has it's own "latin-1" variant called cp1252 but does not map all 256 possible byte values.  Converting between and learning the nuances was an interesting learning experience.
 
-- A docker container was used to run this code and the pytest.  
+- A docker container was used to run this code and the pytest.  I learned to use vscode on my local system to connect to the docker container to leverage it's environment.
+
 # Unit Tests
 
 ```
