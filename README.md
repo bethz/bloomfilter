@@ -43,10 +43,21 @@ Python provides a [Bloomfilter](https://github.com/wxisme/py-bloomfilter) but th
 
 
 # Usage
-  python bloomfilter.py 
-  
-Inputs are defined in bloomfilter.py in main.
-It is not pip installable.
+ 
+  usage: python bloomfilter.py [-h] [--prob PROB] [--items ITEMS] [--target TARGET]
+                               [--showstats]
+
+Try out a bloomfilter
+
+optional arguments:
+  -h, --help       show this help message and exit
+  --prob PROB      Probability of false positive, integer percentages, 1 is 1
+                   percent or 10 is 10 percent
+  --items ITEMS    Number of items in dictionary to search
+  --target TARGET  Target to search for in dictionary
+  --showstats      Use without value to show bloomfilter stats
+
+This bloomfilter is not pip installable.
 
 # Highlights
 
@@ -108,10 +119,7 @@ Unit tests demonstrate testing of base functionality
 # DevOps
 No DevOps at this time.
 
-# bloomfilter
+# bloomfilter note
 
-- left \n at end of line - add newline=None
-- close files
-- try to read non existant file
-- hard to write test for false positive
+- it's difficult to write test for false positive
     However, how do we write unit tests for false positives? It’s impossible to write a conclusive unit test for the “includes” method since returning True does not necessarily mean the word exists. We can run the test repeatedly to determine the probability of getting a false positive and determine if that matches our theoretical calculations, but, as Prashanth brought up, this kind of testing isn’t unit testing because running the same test doesn’t always return True.
