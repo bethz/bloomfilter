@@ -6,6 +6,7 @@
   - input list in iso-8859-1, Latin-1
   - logging in the Bloom Filter and in pytest
   - an implementation of a Bloom Filter
+  - argparse to provide help with input parameters
 
   Bloom filters are interesting because they are a very space efficient way to find if something is a member of a set when the set can be quite large.   False positives are possible but false negatives are not. Bloom Filters are [explained in detail.](https://en.wikipedia.org/wiki/Bloom_filter).
   
