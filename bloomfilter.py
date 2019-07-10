@@ -106,7 +106,7 @@ def openfile(file):
         fencode = subprocess.getoutput('file -b --mime-encoding %s' % file)
         try:
             fileh = open(file, encoding=fencode)
-            logging.info("fencode {}".format(fencode))
+            logging.debug("fencode {}".format(fencode))
             return fileh, fencode
         except (OSError, IOError):
             logging.info('Error: File {} does not exist.'.format(file))
@@ -189,8 +189,8 @@ def read_search_list(bf, bf_size, file, fileh, fencode):
         if fnd:
             logging.debug('Found {} set {} {}'.format(line, j_index, k_index))
             continue
-    logging.info('Search file {} contains {} lines, file encoding is {}'
-                 .format(file, i, fencode))
+    logging.debug('\nSearch file {} contained {} lines, file encoding is {}'
+                  .format(file, i, fencode))
 
 
 def calc_bf_sizes(n, p, showstats):
