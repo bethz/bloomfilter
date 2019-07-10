@@ -43,7 +43,7 @@ Python provides a [Bloomfilter](https://github.com/wxisme/py-bloomfilter) but th
 
 
 # Usage
- 
+``` 
   usage: python bloomfilter.py [-h] [--prob PROB] [--items ITEMS] [--target TARGET]
                                [--showstats]
 
@@ -58,6 +58,7 @@ optional arguments:
   --showstats      Use without value to show bloomfilter stats
 
 This bloomfilter is not pip installable.
+```
 
 # Highlights
 
@@ -114,7 +115,7 @@ Unit tests demonstrate testing of base functionality
 - false positives are hard to tes
 
 # Interesting References
-[Intro to Bloom Filters]( # https://www.geeksforgeeks.org/bloom-filters-introduction-and-python-implementation/)
+[Intro to Bloom Filters](https://www.geeksforgeeks.org.bloom-filters-introduction-and-python-implementation/)
 
 # DevOps
 No DevOps at this time.
