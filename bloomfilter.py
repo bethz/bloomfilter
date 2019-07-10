@@ -232,10 +232,7 @@ def create_arg_parser():
                         action='store',
                         default=326000,
                         help='Number of items in dictionary to search')
-    parser.add_argument('--target',
-                        action='store',
-                        default='zzz',
-                        help='Target to search for in dictionary')
+
     parser.add_argument('--showstats',
                         action='store_true',
                         help='Use without value to show bloomfilter stats')

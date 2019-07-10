@@ -40,8 +40,7 @@ Python provides a [Bloomfilter](https://github.com/wxisme/py-bloomfilter) but th
 
 # Usage
 ``` 
-usage: python bloomfilter.py [-h] [--prob PROB] [--items ITEMS] [--target TARGET]
-                             [--showstats]
+usage: python bloomfilter.py [-h] [--prob PROB] [--items ITEMS] [--showstats]
 
 Try out a bloomfilter
 
@@ -50,10 +49,12 @@ optional arguments:
   --prob PROB      Probability of false positive, integer percentages, 1 is 1
                    percent or 10 is 10 percent
   --items ITEMS    Number of items in dictionary to search
-  --target TARGET  Target to search for in dictionary
   --showstats      Use without value to show bloomfilter stats
 
 This bloomfilter is not pip installable.
+The dictionary file is in data/wordlist.txt
+The words to search for are in data/searchwords.txt
+During development, testing different dictionaries was accomplished by copying to these files. 
 ```
 
 # Highlights
