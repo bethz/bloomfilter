@@ -44,8 +44,8 @@ Python provides a [Bloomfilter](https://github.com/wxisme/py-bloomfilter) but th
 
 # Usage
 ``` 
-  usage: python bloomfilter.py [-h] [--prob PROB] [--items ITEMS] [--target TARGET]
-                               [--showstats]
+usage: python bloomfilter.py [-h] [--prob PROB] [--items ITEMS] [--target TARGET]
+                             [--showstats]
 
 Try out a bloomfilter
 
@@ -111,8 +111,8 @@ Run unit tests:
 ```
 
 Unit tests demonstrate testing of base functionality
-- Each and every word in the dictionary is not testing to confirm it is it returns true
-- false positives are hard to tes
+- Each and every word in the dictionary is not tested to confirm it returns true
+- false positives are hard to test
 
 # Interesting References
 [Intro to Bloom Filters](https://www.geeksforgeeks.org.bloom-filters-introduction-and-python-implementation/)
