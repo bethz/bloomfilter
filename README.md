@@ -87,9 +87,9 @@ p = 1%
 # Interesting Items
 - Character encoding
 
-		- [Joelonsoftware](https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/)
+	[Joelonsoftware](https://www.joelonsoftware.com/2003/10/08/the-absolute-minimum-every-software-developer-absolutely-positively-must-know-about-unicode-and-character-sets-no-excuses/)
 
-		-  [Quick summary of that](https://medium.com/@joffrey.bion/charset-encoding-encryption-same-thing-6242c3f9da0c)
+	[Quick summary of that](https://medium.com/@joffrey.bion/charset-encoding-encryption-same-thing-6242c3f9da0c)
 
 - hashing for Bloom filters is different than filters for cryptographic functions
 - hashing for Bloom filters should be very, very fast with uniform spread
