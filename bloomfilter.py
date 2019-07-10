@@ -4,6 +4,8 @@ import subprocess
 import mmh3
 from math import log
 from bitarray import bitarray
+import sys
+import os
 
 
 class Logging_setup(object):
@@ -100,11 +102,17 @@ def openfile(file):
     fileh   - file reference
     fencode - file encoding
     """
-
-    fencode = subprocess.getoutput('file -b --mime-encoding %s' % file)
-    fileh = open(file, encoding=fencode)
-    logging.debug("fencode ".format(fencode))
-    return fileh, fencode
+    if os.path.isfile(file):
+        fencode = subprocess.getoutput('file -b --mime-encoding %s' % file)
+        try:
+            fileh = open(file, encoding=fencode)
+            logging.info("fencode {}".format(fencode))
+            return fileh, fencode
+        except (OSError, IOError):
+            logging.info('Error: File {} does not exist.'.format(file))
+            sys.exit()
+    else:
+        return 0, 0
 
 
 def setup_dict(bf, bf_size, file, fileh, fencode):
@@ -298,6 +306,7 @@ if __name__ == "__main__":
 
     logging.debug('read dictionary')
     dfileh, dencode = openfile(dict_file)
+
     # read and insert into Bloomfilter
     setup_dict(bf, size_bitarray, dict_file, dfileh, dencode)
     dfileh.close()
